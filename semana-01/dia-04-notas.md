@@ -5,3 +5,5 @@ El comando WHERE se utiliza para filtrar los datos por renglones individuales an
 
 ## HAVING
 Este comando filtra los grupos que se indiquen una vez que se hayan procesado y agrupado los datos, o se haya ejecutado alguna operación como tal para los datos que se están tratando. Se utiliza principalmente para funciones agregadas y permite filtrar por grupos con los datos procesados.
+
+## Resultados de los ejercicios
