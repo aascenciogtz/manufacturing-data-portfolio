@@ -88,12 +88,13 @@ Dando como resultado la siguiente tabla:
 
 | producto   | unidades_defectuosas |
 | ---------- | -------------------: |
-| Eje FX     |                  249 |
-| Valvula DX |                  246 |
-| Carcasa AX |                  222 |
+| Panel EX   |                  294 |
+| Eje FX     |                  272 |
+| Valvula DX |                  267 |
+| Carcasa AX |                  246 |
+| Engrane CX |                  240 |
 | Soporte BX |                  213 |
-| Panel EX   |                  192 |
-| Engrane CX |                  192 |
+
 
 <br>
 
