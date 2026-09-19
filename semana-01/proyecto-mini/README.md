@@ -95,6 +95,8 @@ Dando como resultado la siguiente tabla:
 | Panel EX   |                  192 |
 | Engrane CX |                  192 |
 
+<br>
+
 Con esto se puede identificar que el producto que genera más unidades defectuosas es **Eje FX** con **249 unidades defectuosas**.
 
 Si analizamos la información es importante no discriminar por estado de las órdenes, ya que una vista real de lo que está sucediendo en el proceso es también contabilizar los defectos que se vayan generando en órdenes _En proceso_ o con órdenes _Canceladas_.
@@ -148,7 +150,40 @@ Esto nos da como resultado que los 3 tipos de paro más costosos son:
 
 ### 6. ¿Qué máquinas críticas tienen desempeño operativo que requiere atención? Define y explica tu criterio.
 
+Para poder dar respuesta a este planteamiento, se consideró realizar una validación de los distintos tipos de paro y su tiempo, respecto de cada una de las máquinas. Por lo que se utilizó el siguiente código:
 
+~~~
+SELECT maquinas.maquina, paros.tipo, SUM(paros.minutos) AS tiempo_paro, SUM(paros.costo_estimado_usd) AS costo_paro
+	FROM paros
+	INNER JOIN maquinas ON paros.maquina_id = maquinas.maquina_id
+	GROUP BY maquinas.maquina, paros.tipo
+	ORDER BY costo_paro DESC;
+~~~
+
+Este query muestra como resultado lo siguiente:
+
+| maquina            | tipo             | tiempo_paro | costo_paro |
+| ------------------ | ---------------- | ----------: | ---------: |
+| Horno 601          | Calidad          |         380 |    1722.67 |
+| Inspeccion 701     | Falla            |         285 |     1377.5 |
+| Empacadora 501     | Cambio de modelo |         300 |       1270 |
+| Linea Ensamble 301 | Falla            |         380 |    1266.67 |
+| Linea Ensamble 302 | Material         |         300 |       1090 |
+| CNC 201            | Cambio de modelo |         380 |    1038.67 |
+| Cabina Pintura 401 | Preventivo       |         225 |        885 |
+| Prensa 102         | Preventivo       |         300 |        730 |
+| Prensa 101         | Material         |         265 |     565.34 |
+| CNC 202            | Calidad          |         165 |      500.5 |
+
+<br>
+
+Si consideramos que para poder dar criticidad a las máquinas se deben considerar los tipos de fallos relacionados, se encuentra que tenemos el **Horno 601** con mayor tiempo de paro por temas de **Calidad** y que tiene un impacto muy elevado en costo con **1,722.67 USD**, por lo que sería la prioridad número 1.
+
+La prioridad número 2, sería **Línea de Ensamble 301** con tiempo de paro por **Falla** en el equipo y que representa un costo de más de **1,266 USD**.
+
+En tercer lugar, se tendría que priorizar la **Empacadora 501** con un tiempo de paro por **Cambio de modelo** con un impacto en costo de **1,270 USD**.
+
+<br>
 
 ### 7. ¿Qué productos superan 8,000 unidades reales y cuál es su costo promedio?
 
@@ -202,4 +237,43 @@ Esto da como resultado la siguiente clasificación:
 | Bajo   |      34 |
 | Medio  |      10 |
 
+<br>
+
 Con esto podemos concluir que se tienen **16 órdenes** con riesgo Alto, **34 órdenes** con riesgo Bajo y **10 órdenes** con riesgo Medio.
+
+
+## Recomendaciones finales
+
+Una vez analizado todos los planteamientos indicados, y haber entendido e interpretado la información, se recomienda trabajar con actividades de mejora continua para poder reducir los desperdicios, mejorar los costos operativos, incrementar la eficiencia de los equipos y ver reflejados monetariamente estos impactos una vez implementados.
+
+<br>
+
+**1. Trabajar con metodologías de identificación de causas raíz e identificación de problemas enfocados a los tipos de paros más costosos, que en este caso son:**
+
+- Falla
+- Cambio de modelo
+- Calidad
+
+Algunas de la metodologías que se pueden utilizar son:
+- 5W's
+- Ishikawa
+- VSM
+
+<br>
+
+**2. Enfocar los recursos para la reducción de fallas en los siguientes equipos para poder incrementar la eficiencia operativa y reducir las afectaciones a la producción:**
+
+- Línea de Ensamble 301
+- Horno 601
+- CNC 201
+
+<br>
+
+**3. Analizar a un nivel de detalle más amplio las causas de productos con nivel más alto de defectos, que en este caso son:**
+- Eje FX
+- Valvula DX
+- Carcasa AX
+
+Para este caso se tendrían que arrancar con equipos CFT para identificar en conjunto las causas de fabricación de defectos, con integrantes de Mantenimiento, Producción, Calidad, y en casos necesarios Proveedores.
+
+<br>
